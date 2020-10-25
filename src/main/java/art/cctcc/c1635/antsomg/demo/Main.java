@@ -20,7 +20,7 @@ import java.util.Map;
 import static java.util.function.Predicate.not;
 import java.util.stream.Collectors;
 import processing.core.PApplet;
-import art.cctcc.c1635.antsomg.impl.StandardGraph;
+import tech.metacontext.ocnhfa.antsomg.impl.StandardGraph;
 
 /**
  *

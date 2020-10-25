@@ -22,10 +22,10 @@ import java.util.stream.Collectors;
 import art.cctcc.c1635.antsomg.demo.x.Edge_X;
 import art.cctcc.c1635.antsomg.demo.x.Vertex_X;
 import art.cctcc.c1635.antsomg.demo.y.Edge_Y;
-import art.cctcc.c1635.antsomg.model.Ant;
-import art.cctcc.c1635.antsomg.impl.StandardMove;
 import art.cctcc.c1635.antsomg.demo.y.Vertex_Y;
-import art.cctcc.c1635.antsomg.model.Vertex;
+import tech.metacontext.ocnhfa.antsomg.impl.StandardMove;
+import tech.metacontext.ocnhfa.antsomg.model.Ant;
+import tech.metacontext.ocnhfa.antsomg.model.Vertex;
 
 /**
  *

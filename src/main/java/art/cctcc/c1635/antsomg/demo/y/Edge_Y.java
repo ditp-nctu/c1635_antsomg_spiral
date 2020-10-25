@@ -15,7 +15,7 @@
  */
 package art.cctcc.c1635.antsomg.demo.y;
 
-import art.cctcc.c1635.antsomg.impl.StandardEdge;
+import tech.metacontext.ocnhfa.antsomg.impl.StandardEdge;
 
 /**
  *

@@ -23,9 +23,9 @@ import art.cctcc.c1635.antsomg.demo.x.Graph_X;
 import art.cctcc.c1635.antsomg.demo.x.Vertex_X;
 import art.cctcc.c1635.antsomg.demo.y.Graph_Y;
 import art.cctcc.c1635.antsomg.demo.y.Vertex_Y;
-import art.cctcc.c1635.antsomg.impl.StandardEdge;
-import art.cctcc.c1635.antsomg.impl.StandardGraph;
-import art.cctcc.c1635.antsomg.model.AntsOMGSystem;
+import tech.metacontext.ocnhfa.antsomg.impl.StandardEdge;
+import tech.metacontext.ocnhfa.antsomg.impl.StandardGraph;
+import tech.metacontext.ocnhfa.antsomg.model.AntsOMGSystem;
 
 /**
  *

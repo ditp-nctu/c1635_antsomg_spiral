@@ -16,7 +16,7 @@
 package art.cctcc.c1635.antsomg.demo.y;
 
 import static art.cctcc.c1635.antsomg.demo.y.Vertex_Y.Y.*;
-import art.cctcc.c1635.antsomg.impl.StandardGraph;
+import tech.metacontext.ocnhfa.antsomg.impl.StandardGraph;
 
 /**
  *

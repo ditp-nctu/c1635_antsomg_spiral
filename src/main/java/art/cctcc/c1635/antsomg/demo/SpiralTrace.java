@@ -17,9 +17,9 @@ package art.cctcc.c1635.antsomg.demo;
 
 import art.cctcc.c1635.antsomg.demo.x.Edge_X;
 import art.cctcc.c1635.antsomg.demo.y.Edge_Y;
-import art.cctcc.c1635.antsomg.model.Trace;
-import art.cctcc.c1635.antsomg.impl.StandardMove;
-import art.cctcc.c1635.antsomg.model.Vertex;
+import tech.metacontext.ocnhfa.antsomg.impl.StandardMove;
+import tech.metacontext.ocnhfa.antsomg.model.Trace;
+import tech.metacontext.ocnhfa.antsomg.model.Vertex;
 
 /**
  *

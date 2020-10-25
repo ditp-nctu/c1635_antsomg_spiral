@@ -17,7 +17,7 @@ package art.cctcc.c1635.antsomg.demo.y;
 
 import java.util.HashMap;
 import java.util.Map;
-import art.cctcc.c1635.antsomg.impl.StandardVertex;
+import tech.metacontext.ocnhfa.antsomg.impl.StandardVertex;
 
 /**
  *
