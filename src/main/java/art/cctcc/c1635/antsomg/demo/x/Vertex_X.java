@@ -45,4 +45,9 @@ public class Vertex_X extends StandardVertex {
 
         return instances.get(name);
     }
+
+    public X e() {
+
+        return X.valueOf(this.getName());
+    }
 }

@@ -19,13 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import art.cctcc.c1635.antsomg.demo.x.Edge_X;
-import art.cctcc.c1635.antsomg.demo.x.Vertex_X;
-import art.cctcc.c1635.antsomg.demo.y.Edge_Y;
-import art.cctcc.c1635.antsomg.demo.y.Vertex_Y;
-import tech.metacontext.ocnhfa.antsomg.impl.StandardMove;
 import tech.metacontext.ocnhfa.antsomg.model.Ant;
-import tech.metacontext.ocnhfa.antsomg.model.Vertex;
+import tech.metacontext.ocnhfa.antsomg.impl.StandardMove;
+import art.cctcc.c1635.antsomg.demo.x.*;
+import art.cctcc.c1635.antsomg.demo.y.*;
+import static art.cctcc.c1635.antsomg.demo.x.Vertex_X.X.*;
 
 /**
  *
@@ -49,15 +47,15 @@ public class SpiralAnt implements Ant<SpiralTrace> {
     boolean isBalanced() {
 
         var count = route.stream()
-                .map(trace -> trace.getDimension("x"))
-                .collect(Collectors.groupingBy(Vertex::getName,
+                .map(trace -> trace.getX().getSelected().getTo())
+                .collect(Collectors.groupingBy(Vertex_X::e,
                         Collectors.counting()));
         if (count.size() == 3) {
-            if (count.get("OUT") > (count.get("IN") + count.get("STAY") / 1.5)
+            if (count.get(OUT) > (count.get(IN) + count.get(STAY) / 1.5)
                     && Math.random() > 0.75) {
                 return true;
             }
-            if (count.get("OUT") - count.get("IN") > 150) {
+            if (count.get(OUT) - count.get(IN) > 150) {
                 return true;
             }
         }

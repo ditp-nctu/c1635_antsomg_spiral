@@ -39,16 +39,13 @@ public class Graph_X extends StandardGraph<Edge_X, Vertex_X> {
 
         this.setStart(stay);
         var S_I = new Edge_X(stay, in, 10.0);
-        var I_S = new Edge_X(in, stay, 1.0);
         var S_O = new Edge_X(stay, out, 1.0);
-        var O_S = new Edge_X(out, stay, 10.0);
         var I_O = new Edge_X(in, out, 1.0);
         var O_O = new Edge_X(out, out, 500.0);
         var S_S = new Edge_X(stay, stay, 1.0);
         this.addEdges(
-                S_I, I_S,
-                S_O, O_S,
-                I_O, O_O,
-                S_S);
+                S_I, S_I.getReverse(1.0),
+                S_O, S_O.getReverse(10.0),
+                I_O, O_O, S_S);
     }
 }

@@ -15,12 +15,13 @@
  */
 package art.cctcc.c1635.antsomg.demo;
 
-import java.awt.Color;
 import java.util.Map;
-import static java.util.function.Predicate.not;
 import java.util.stream.Collectors;
+import java.awt.Color;
+import static java.util.function.Predicate.not;
 import processing.core.PApplet;
 import tech.metacontext.ocnhfa.antsomg.impl.StandardGraph;
+import static art.cctcc.c1635.antsomg.demo.x.Vertex_X.X.*;
 
 /**
  *
@@ -58,28 +59,28 @@ public class Main extends PApplet {
         demo.ants.stream()
                 .filter(not(SpiralAnt::isCompleted))
                 .forEach(ant -> {
-                    var move = ant.getCurrentTrace().getDimension("x");
+                    var move = ant.getCurrentTrace().getX().getSelected().getTo();
                     var r = radius.get(ant);
-                    if ("IN".equals(move.getName()) && r > move_amount) {
+                    if (IN.equals(move.e()) && r > move_amount) {
                         r -= move_amount;
                     }
-                    if ("OUT".equals(move.getName())) {
+                    if (OUT.equals(move.e())) {
                         r += move_amount;
                     }
                     radius.replace(ant, r);
                     float x = size / 2 + r * cos(this.theta),
                             y = size / 2 + r * sin(this.theta);
-                    switch (ant.currentTrace.getDimension("y").getName()) {
-                        case "WHITE" -> {
+                    switch (ant.currentTrace.getY().getSelected().getTo().e()) {
+                        case WHITE -> {
                             stroke(Color.WHITE.getRGB());
                         }
-                        case "RED" -> {
+                        case RED -> {
                             stroke(Color.RED.getRGB());
                         }
-                        case "YELLOW" -> {
+                        case YELLOW -> {
                             stroke(Color.YELLOW.getRGB());
                         }
-                        case "BLUE" -> {
+                        case BLUE -> {
                             stroke(Color.BLUE.getRGB());
                         }
                     }

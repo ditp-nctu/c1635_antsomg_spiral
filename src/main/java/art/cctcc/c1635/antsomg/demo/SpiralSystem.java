@@ -19,13 +19,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import art.cctcc.c1635.antsomg.demo.x.Graph_X;
-import art.cctcc.c1635.antsomg.demo.x.Vertex_X;
-import art.cctcc.c1635.antsomg.demo.y.Graph_Y;
-import art.cctcc.c1635.antsomg.demo.y.Vertex_Y;
 import tech.metacontext.ocnhfa.antsomg.impl.StandardEdge;
 import tech.metacontext.ocnhfa.antsomg.impl.StandardGraph;
 import tech.metacontext.ocnhfa.antsomg.model.AntsOMGSystem;
+import art.cctcc.c1635.antsomg.demo.x.*;
+import art.cctcc.c1635.antsomg.demo.y.*;
+import tech.metacontext.ocnhfa.antsomg.model.Graph;
 
 /**
  *
@@ -53,6 +52,7 @@ public class SpiralSystem implements AntsOMGSystem<SpiralAnt> {
                 "x", new Graph_X(alpha, beta),
                 "y", new Graph_Y(alpha, beta)
         );
+        this.graphs.values().forEach(Graph::init_graph);
     }
 
     Graph_X getX() {
