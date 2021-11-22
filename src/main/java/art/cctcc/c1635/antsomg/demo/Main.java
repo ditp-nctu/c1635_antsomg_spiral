@@ -17,6 +17,7 @@ package art.cctcc.c1635.antsomg.demo;
 
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.time.Instant;
 import java.awt.Color;
 import static java.util.function.Predicate.not;
 import processing.core.PApplet;
@@ -29,77 +30,81 @@ import static art.cctcc.c1635.antsomg.demo.x.Vertex_X.X.*;
  */
 public class Main extends PApplet {
 
-    int size = 700;
-    SpiralSystem demo;
-    float theta;
-    Map<SpiralAnt, Float> radius;
+  int size = 700;
+  SpiralSystem demo;
+  float theta;
+  Map<SpiralAnt, Float> radius;
 
-    @Override
-    public void settings() {
-        size(size, size);
+  @Override
+  public void settings() {
+    size(size, size);
+  }
+
+  @Override
+  public void setup() {
+    colorMode(RGB);
+    background(0);
+    noFill();
+    try {
+      demo = new SpiralSystem(200, Long.parseLong(args[0]));
+    } catch (Exception ex) {
+      demo = new SpiralSystem(200, Instant.now().getEpochSecond());
     }
+    demo.init_graphs();
+    demo.init_population();
+    radius = demo.ants.stream()
+            .collect(Collectors.toMap(ant -> ant, ant -> 10f));
+  }
+  float move_amount = 2.5f;
+  float delta_theta = 1f;
 
-    @Override
-    public void setup() {
-        colorMode(RGB);
-        background(0);
-        noFill();
-        demo = new SpiralSystem(200);
-        demo.init_graphs();
-        demo.init_population();
-        radius = demo.ants.stream()
-                .collect(Collectors.toMap(ant -> ant, ant -> 10f));
+  @Override
+  public void draw() {
+
+    demo.ants.stream()
+            .filter(not(SpiralAnt::isCompleted))
+            .forEach(ant -> {
+              var move = ant.getCurrentTrace().getX().getSelected().getTo();
+              var r = radius.get(ant);
+              if (IN.equals(move.e()) && r > move_amount) {
+                r -= move_amount;
+              }
+              if (OUT.equals(move.e())) {
+                r += move_amount;
+              }
+              radius.replace(ant, r);
+              float x = size / 2 + r * cos(this.theta),
+                      y = size / 2 + r * sin(this.theta);
+              switch (ant.currentTrace.getY().getSelected().getTo().e()) {
+                case WHITE -> {
+                  stroke(Color.WHITE.getRGB());
+                }
+                case RED -> {
+                  stroke(Color.RED.getRGB());
+                }
+                case YELLOW -> {
+                  stroke(Color.YELLOW.getRGB());
+                }
+                case BLUE -> {
+                  stroke(Color.BLUE.getRGB());
+                }
+              }
+              point(x, y);
+            });
+
+    this.theta += delta_theta * PI / 180;
+    if (demo.isAimAchieved()) {
+      demo.getGraphs().values().stream()
+              .map(StandardGraph::asGraphviz)
+              .forEach(System.out::println);
+      noLoop();
+    } else {
+      demo.navigate();
     }
-    float move_amount = 2.5f;
-    float delta_theta = 1f;
+  }
 
-    @Override
-    public void draw() {
-
-        demo.ants.stream()
-                .filter(not(SpiralAnt::isCompleted))
-                .forEach(ant -> {
-                    var move = ant.getCurrentTrace().getX().getSelected().getTo();
-                    var r = radius.get(ant);
-                    if (IN.equals(move.e()) && r > move_amount) {
-                        r -= move_amount;
-                    }
-                    if (OUT.equals(move.e())) {
-                        r += move_amount;
-                    }
-                    radius.replace(ant, r);
-                    float x = size / 2 + r * cos(this.theta),
-                            y = size / 2 + r * sin(this.theta);
-                    switch (ant.currentTrace.getY().getSelected().getTo().e()) {
-                        case WHITE -> {
-                            stroke(Color.WHITE.getRGB());
-                        }
-                        case RED -> {
-                            stroke(Color.RED.getRGB());
-                        }
-                        case YELLOW -> {
-                            stroke(Color.YELLOW.getRGB());
-                        }
-                        case BLUE -> {
-                            stroke(Color.BLUE.getRGB());
-                        }
-                    }
-                    point(x, y);
-                });
-
-        this.theta += delta_theta * PI / 180;
-        if (demo.isAimAchieved()) {
-            demo.getGraphs().values().stream()
-                    .map(StandardGraph::asGraphviz)
-                    .forEach(System.out::println);
-            noLoop();
-        } else {
-            demo.navigate();
-        }
-    }
-
-    public static void main(String[] args) {
-        System.setProperty("sun.java2d.uiScale", "1.0");
-        PApplet.main(Main.class);
-    }
+  public static void main(String[] args) {
+    System.setProperty("sun.java2d.uiScale", "1.0");
+    PApplet.main(Main.class, args);
+  }
 }

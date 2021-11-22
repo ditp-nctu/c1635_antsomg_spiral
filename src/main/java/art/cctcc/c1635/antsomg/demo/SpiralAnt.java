@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import static tech.metacontext.ocnhfa.antsomg.impl.StandardParameters.getRandom;
 import tech.metacontext.ocnhfa.antsomg.model.Ant;
 import tech.metacontext.ocnhfa.antsomg.impl.StandardMove;
 import art.cctcc.c1635.antsomg.demo.x.*;
@@ -31,71 +32,71 @@ import static art.cctcc.c1635.antsomg.demo.x.Vertex_X.X.*;
  */
 public class SpiralAnt implements Ant<SpiralTrace> {
 
-    SpiralTrace currentTrace;
-    List<SpiralTrace> route;
-    private boolean completed;
+  SpiralTrace currentTrace;
+  List<SpiralTrace> route;
+  private boolean completed;
 
-    public SpiralAnt(Vertex_X x, Vertex_Y y) {
+  public SpiralAnt(Vertex_X x, Vertex_Y y) {
 
-        this.currentTrace = new SpiralTrace(
-                new StandardMove<>(new Edge_X(x)),
-                new StandardMove<>(new Edge_Y(y))
-        );
-        this.route = new ArrayList<>();
+    this.currentTrace = new SpiralTrace(
+            new StandardMove<>(new Edge_X(x)),
+            new StandardMove<>(new Edge_Y(y))
+    );
+    this.route = new ArrayList<>();
+  }
+
+  boolean isBalanced() {
+
+    var count = route.stream()
+            .map(trace -> trace.getX().getSelected().getTo())
+            .collect(Collectors.groupingBy(Vertex_X::e,
+                    Collectors.counting()));
+    if (count.size() == 3) {
+      if (count.get(OUT) > (count.get(IN) + count.get(STAY) / 1.5)
+              && getRandom().nextDouble() > 0.75) {
+        return true;
+      }
+      if (count.get(OUT) - count.get(IN) > 150) {
+        return true;
+      }
     }
+    return false;
+  }
 
-    boolean isBalanced() {
+  @Override
+  public List<SpiralTrace> getRoute() {
 
-        var count = route.stream()
-                .map(trace -> trace.getX().getSelected().getTo())
-                .collect(Collectors.groupingBy(Vertex_X::e,
-                        Collectors.counting()));
-        if (count.size() == 3) {
-            if (count.get(OUT) > (count.get(IN) + count.get(STAY) / 1.5)
-                    && Math.random() > 0.75) {
-                return true;
-            }
-            if (count.get(OUT) - count.get(IN) > 150) {
-                return true;
-            }
-        }
-        return false;
+    return this.route;
+  }
+
+  @Override
+  public void addCurrentTraceToRoute() {
+
+    this.route.add(this.currentTrace);
+  }
+
+  @Override
+  public SpiralTrace getCurrentTrace() {
+
+    return this.currentTrace;
+  }
+
+  @Override
+  public void setCurrentTrace(SpiralTrace trace) {
+
+    if (Objects.nonNull(this.currentTrace)) {
+      this.addCurrentTraceToRoute();
     }
+    this.currentTrace = trace;
+  }
 
-    @Override
-    public List<SpiralTrace> getRoute() {
+  public boolean isCompleted() {
 
-        return this.route;
-    }
+    return completed;
+  }
 
-    @Override
-    public void addCurrentTraceToRoute() {
+  public void setCompleted(boolean completed) {
 
-        this.route.add(this.currentTrace);
-    }
-
-    @Override
-    public SpiralTrace getCurrentTrace() {
-
-        return this.currentTrace;
-    }
-
-    @Override
-    public void setCurrentTrace(SpiralTrace trace) {
-
-        if (Objects.nonNull(this.currentTrace)) {
-            this.addCurrentTraceToRoute();
-        }
-        this.currentTrace = trace;
-    }
-
-    public boolean isCompleted() {
-
-        return completed;
-    }
-
-    public void setCompleted(boolean completed) {
-
-        this.completed = completed;
-    }
+    this.completed = completed;
+  }
 }
