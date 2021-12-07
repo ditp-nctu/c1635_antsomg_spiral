@@ -30,14 +30,15 @@ import static art.cctcc.c1635.antsomg.demo.x.Vertex_X.X.*;
  */
 public class Main extends PApplet {
 
-  int size = 700;
+  int canvas_size = 700;
+  int population = 500;
   SpiralSystem demo;
   float theta;
   Map<SpiralAnt, Float> radius;
 
   @Override
   public void settings() {
-    size(size, size);
+    size(canvas_size, canvas_size);
   }
 
   @Override
@@ -46,17 +47,17 @@ public class Main extends PApplet {
     background(0);
     noFill();
     try {
-      demo = new SpiralSystem(200, Long.parseLong(args[0]));
+      demo = new SpiralSystem(population, Long.parseLong(args[0]));
     } catch (Exception ex) {
-      demo = new SpiralSystem(200, Instant.now().getEpochSecond());
+      demo = new SpiralSystem(population, Instant.now().getEpochSecond());
     }
     demo.init_graphs();
     demo.init_population();
     radius = demo.ants.stream()
             .collect(Collectors.toMap(ant -> ant, ant -> 10f));
   }
-  float move_amount = 2.5f;
-  float delta_theta = 1f;
+  float delta_theta = 0.7f;
+  float move_amount = 2.5f * delta_theta;
 
   @Override
   public void draw() {
@@ -73,8 +74,8 @@ public class Main extends PApplet {
                 r += move_amount;
               }
               radius.replace(ant, r);
-              float x = size / 2 + r * cos(this.theta),
-                      y = size / 2 + r * sin(this.theta);
+              float x = canvas_size / 2 + r * cos(this.theta),
+                      y = canvas_size / 2 + r * sin(this.theta);
               switch (ant.currentTrace.getY().getSelected().getTo().e()) {
                 case WHITE -> {
                   stroke(Color.WHITE.getRGB());
